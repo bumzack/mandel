@@ -7,6 +7,6 @@ namespace MandelbrotGenerator
     {
         void GenerateImageAsync(Area area);
         void CancelAsync();
-        event EventHandler<EventArgs<Tuple<Area, Bitmap>>> ImageGenerated;
+        event EventHandler<EventArgs<Tuple<Area, Bitmap, TimeSpan>>> ImageGenerated;
     }
 }

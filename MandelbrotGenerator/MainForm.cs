@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -31,38 +30,36 @@ namespace MandelbrotGenerator
             currentArea.Width = pictureBox.Width;
             currentArea.Height = pictureBox.Height;
 
-            generator = new ASyncImageGenerator();
+            generator = new BackgroundWorkerImageGenerator();
             generator.ImageGenerated += Generator_ImageGenerated;
         }
 
-        private void Generator_ImageGenerated(object sender, EventArgs<Tuple<Area, Bitmap>> e)
+        private void Generator_ImageGenerated(object sender, EventArgs<Tuple<Area, Bitmap, TimeSpan>> e)
         {
             // Gefahr einer race COndition, wenn beim MouseUp die currentrea geschrieben wird
             // entweder ein lock, aber brachial
             // oder an den MainThread delegieren, dann auch nicht gleichzeitig
+
+            Console.WriteLine("Generator_ImageGenerated() - bitmap  width:  " + e.Value.Item2.Width + " height: " + e.Value.Item2.Height);
             if (pictureBox.InvokeRequired)
             {
                 pictureBox.Invoke(new Action(() => pictureBox.Image = e.Value.Item2));
                 currentArea = e.Value.Item1;
+                toolStripStatusLabel.Text = "Done (Runtime: " + e.Value.Item3 + ")";
             }
             else
             {
                 pictureBox.Image = e.Value.Item2;
                 currentArea = e.Value.Item1;
+                toolStripStatusLabel.Text = "Done (Runtime: " + e.Value.Item3 + ")";
             }
         }
 
         private void UpdateImage(Area area)
         {
             toolStripStatusLabel.Text = "Calculating ...";
-
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             generator.CancelAsync();
             generator.GenerateImageAsync(area);
-            stopwatch.Stop();
-
-            toolStripStatusLabel.Text = "Done (Runtime: " + stopwatch.Elapsed.ToString() + ")";
         }
 
         #region Menu events
@@ -73,7 +70,7 @@ namespace MandelbrotGenerator
                 string filename = saveFileDialog.FileName;
 
                 ImageFormat format = null;
-                if (filename.EndsWith("jpb")) format = ImageFormat.Jpeg;
+                if (filename.EndsWith("jpg")) format = ImageFormat.Jpeg;
                 else if (filename.EndsWith("gif")) format = ImageFormat.Gif;
                 else if (filename.EndsWith("png")) format = ImageFormat.Png;
                 else format = ImageFormat.Bmp;
@@ -125,10 +122,18 @@ namespace MandelbrotGenerator
 
             if (e.Button == MouseButtons.Left)
             {
+                //if (currentArea != null)
+                //{
                 area.MinReal = currentArea.MinReal + currentArea.PixelWidth * Math.Min(e.X, mouseDownPoint.X);
                 area.MinImg = currentArea.MinImg + currentArea.PixelHeight * Math.Min(e.Y, mouseDownPoint.Y);
                 area.MaxReal = currentArea.MinReal + currentArea.PixelWidth * Math.Max(e.X, mouseDownPoint.X);
                 area.MaxImg = currentArea.MinImg + currentArea.PixelHeight * Math.Max(e.Y, mouseDownPoint.Y);
+                //}
+                //else
+                //{
+                //    Console.WriteLine("current Area == null :-(");
+                //}
+
             }
             else if (e.Button == MouseButtons.Right)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 
@@ -8,27 +9,32 @@ namespace MandelbrotGenerator
     {
         private bool CancelRequested = false;
 
-        public event EventHandler<EventArgs<Tuple<Area, Bitmap>>> ImageGenerated;
+        public event EventHandler<EventArgs<Tuple<Area, Bitmap, TimeSpan>>> ImageGenerated;
         public void CancelAsync()
         {
             CancelRequested = true;
         }
 
-        private void OnImageGenerated(Area area, Bitmap bitmap)
+        private void OnImageGenerated(Area area, Bitmap bitmap, TimeSpan duration)
         {
-            ImageGenerated?.Invoke(this, new EventArgs<Tuple<Area, Bitmap>>(new Tuple<Area, Bitmap>(area, bitmap)));
+            ImageGenerated?.Invoke(this, new EventArgs<Tuple<Area, Bitmap, TimeSpan>>(new Tuple<Area, Bitmap, TimeSpan>(area, bitmap, duration)));
         }
 
         public void GenerateImageAsync(Area area)
         {
             // TODO: problem: hier könnte es synchronistionsproblem geben, weil CancelRequest neu gesetzt wird bevor GEnerateImage abgebrochen wird 
-            // CancelRequested = false;
+            CancelRequested = false;
             Thread thread = new Thread(() =>
             {
                 // TODO: hier die Zeitmessung und weiteren Rückgabewert
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 Bitmap bitmap = GenerateImage(area);
+                stopwatch.Stop();
+                TimeSpan duration = stopwatch.Elapsed;
+
                 if (bitmap != null)
-                    OnImageGenerated(area, bitmap);
+                    OnImageGenerated(area, bitmap, duration);
             });
             thread.Start();
         }
@@ -72,10 +78,6 @@ namespace MandelbrotGenerator
                     bitmap.SetPixel(i, j, ColorSchema.GetColor(k));
                 }
             }
-            Thread.Sleep(1000);
-
-            //end insert
-
             return bitmap;
         }
     }
