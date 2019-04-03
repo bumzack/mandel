@@ -30,7 +30,7 @@ namespace MandelbrotGenerator
             currentArea.Width = pictureBox.Width;
             currentArea.Height = pictureBox.Height;
 
-            generator = new BackgroundWorkerImageGenerator();
+            generator = new ParallelImageGenerator();
             generator.ImageGenerated += Generator_ImageGenerated;
         }
 
@@ -57,12 +57,20 @@ namespace MandelbrotGenerator
 
         private void UpdateImage(Area area)
         {
+            Console.WriteLine("The number of processors " + "on this computer is {0}.", Environment.ProcessorCount);
+
             toolStripStatusLabel.Text = "Calculating ...";
             generator.CancelAsync();
             generator.GenerateImageAsync(area);
         }
 
         #region Menu events
+
+        private void start10IterationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void saveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
@@ -146,5 +154,7 @@ namespace MandelbrotGenerator
             UpdateImage(area);
         }
         #endregion
+
+     
     }
 }

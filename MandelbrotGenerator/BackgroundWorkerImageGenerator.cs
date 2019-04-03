@@ -10,7 +10,6 @@ namespace MandelbrotGenerator
     {
         private Area area;
         private Bitmap bitmap;
-        private TimeSpan duration;
         private Stopwatch stopwatch;
 
         BackgroundWorker worker;
@@ -66,7 +65,6 @@ namespace MandelbrotGenerator
                 else
                 {
                     Console.WriteLine("Backround Worker finished  but no bitmap :-(");
-
                 }
             }
         }
