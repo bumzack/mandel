@@ -19,8 +19,8 @@
             MinImg = -1;
             MaxReal = 1;
             MaxImg = 1;
-            Width = 1200;
-            Height = 800;
+            Width = 640;
+            Height = 480;
         }
 
         public Area(double minReal, double minImg, double maxReal, double maxImg, int width, int height)

@@ -34,7 +34,6 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.start10IterationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -45,17 +44,17 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 666);
+            this.statusStrip.Location = new System.Drawing.Point(0, 714);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1134, 30);
+            this.statusStrip.Size = new System.Drawing.Size(1178, 30);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
             // 
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(1111, 25);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(1155, 25);
             this.toolStripStatusLabel.Spring = true;
             this.toolStripStatusLabel.Text = "Ready";
             this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -69,7 +68,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.menuStrip.Size = new System.Drawing.Size(1134, 35);
+            this.menuStrip.Size = new System.Drawing.Size(1178, 35);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -78,8 +77,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.exitToolStripMenuItem,
-            this.start10IterationsToolStripMenuItem});
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
             this.fileToolStripMenuItem.Text = "&File";
@@ -88,20 +86,20 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(194, 30);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click_1);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(249, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(191, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(194, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -130,7 +128,7 @@
             this.pictureBox.Location = new System.Drawing.Point(18, 42);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(800, 600);
+            this.pictureBox.Size = new System.Drawing.Size(1142, 663);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
@@ -144,18 +142,11 @@
             this.saveFileDialog.Filter = "Bitmap|*.bmp|JPEG|*.jpg|GIF|*.gif|PNG|*.png";
             this.saveFileDialog.Title = "Save Image ...";
             // 
-            // start10IterationsToolStripMenuItem
-            // 
-            this.start10IterationsToolStripMenuItem.Name = "start10IterationsToolStripMenuItem";
-            this.start10IterationsToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-            this.start10IterationsToolStripMenuItem.Text = "start 10 iterations";
-            this.start10IterationsToolStripMenuItem.Click += new System.EventHandler(this.start10IterationsToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1134, 696);
+            this.ClientSize = new System.Drawing.Size(1178, 744);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
@@ -186,7 +177,6 @@
     private System.Windows.Forms.PictureBox pictureBox;
     private System.Windows.Forms.SaveFileDialog saveFileDialog;
     private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.ToolStripMenuItem start10IterationsToolStripMenuItem;
-    }
+  }
 }
 

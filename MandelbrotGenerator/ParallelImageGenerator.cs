@@ -8,11 +8,13 @@ namespace MandelbrotGenerator
 {
     public class ParallelImageGenerator : IAsyncImageGenerator
     {
+        private bool CancelRequested = false;
 
         public event EventHandler<EventArgs<Tuple<Area, Bitmap, TimeSpan>>> ImageGenerated;
+
         public void CancelAsync()
         {
-            //            CancelRequested = true;
+            CancelRequested = true;
         }
 
         private void OnImageGenerated(Area area, Bitmap bitmap, TimeSpan duration)
@@ -22,14 +24,11 @@ namespace MandelbrotGenerator
 
         public void GenerateImageAsync(Area area)
         {
-            // TODO: problem: hier könnte es synchronistionsproblem geben, weil CancelRequest neu gesetzt wird bevor GEnerateImage abgebrochen wird 
-            //  CancelRequested = false;
-
             Bitmap bitmap = new Bitmap(area.Width, area.Height);
 
             object rowLock = new object();
+            int numThreads = Settings.DefaultSettings.Workers;
 
-            int numThreads = 4;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -48,9 +47,9 @@ namespace MandelbrotGenerator
                     maxIterations = Settings.DefaultSettings.MaxIterations;
                     zBorder = Settings.DefaultSettings.ZBorder * Settings.DefaultSettings.ZBorder;
 
-                    while (actRow < area.Height)
+                    while (actRow < area.Height && !CancelRequested)
                     {
-                        // lock (rowLock)
+                        lock (rowLock)
                         {
                             if (actRow < area.Height)
                             {
@@ -58,7 +57,6 @@ namespace MandelbrotGenerator
                                 actRow++;
                             }
                         }
-                       // Console.WriteLine($"Thread  {name}, y = {y},  actRow = {actRow},   area,Height = {area.Height}");
 
                         for (int x = 0; x < area.Width; x++)
                         {
@@ -89,16 +87,25 @@ namespace MandelbrotGenerator
                 threads.Add(t);
                 t.Start(m);
             }
+
             Console.WriteLine("Starting to wait...");
             foreach (Thread t in threads)
                 t.Join();
             Console.WriteLine("All threads finished!");
             stopwatch.Stop();
+
+            if (CancelRequested)
+            {
+                bitmap = null;
+                CancelRequested = false; 
+            }
+
             TimeSpan duration = stopwatch.Elapsed;
+            Console.WriteLine($" time elapsed   {duration}");
+            Console.WriteLine($" width      {area.Width},   height: {area.Height}");
 
             if (bitmap != null)
                 OnImageGenerated(area, bitmap, duration);
-
         }
     }
 }

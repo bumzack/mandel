@@ -33,6 +33,9 @@ namespace MandelbrotGenerator
                 stopwatch.Stop();
                 TimeSpan duration = stopwatch.Elapsed;
 
+                Console.WriteLine($" time elapsed   {duration}");
+                Console.WriteLine($" width      {area.Width},   height: {area.Height}");
+
                 if (bitmap != null)
                     OnImageGenerated(area, bitmap, duration);
             });
