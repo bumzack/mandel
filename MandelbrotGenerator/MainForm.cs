@@ -30,7 +30,7 @@ namespace MandelbrotGenerator
             currentArea.Width = pictureBox.Width;
             currentArea.Height = pictureBox.Height;
 
-            generator = new ASyncImageGenerator();
+            generator = new ThreadPoolWorkerImageGenerator();                        // new ASyncImageGenerator();      ParallelImageGenerator
             generator.ImageGenerated += Generator_ImageGenerated;
         }
 
@@ -59,6 +59,7 @@ namespace MandelbrotGenerator
         {
             toolStripStatusLabel.Text = "Calculating ...";
             generator.CancelAsync();
+            Console.WriteLine("UpdateImage() - bitmap  width:  " + area.Width + " height: " + area.Height);
             generator.GenerateImageAsync(area);
         }
 

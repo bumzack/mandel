@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area.cs" />
+    <Compile Include="ThreadPoolWorkerImageGenerator.cs" />
     <Compile Include="ParallelImageGenerator.cs" />
     <Compile Include="BackgroundWorkerImageGenerator.cs" />
     <Compile Include="ColorSchema.cs" />

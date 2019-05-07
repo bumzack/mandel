@@ -24,9 +24,10 @@ namespace MandelbrotGenerator
 
         public void GenerateImageAsync(Area area)
         {
+            CancelRequested = false;
             Bitmap bitmap = new Bitmap(area.Width, area.Height);
-
             object rowLock = new object();
+
             int numThreads = Settings.DefaultSettings.Workers;
 
             Stopwatch stopwatch = new Stopwatch();
@@ -62,18 +63,15 @@ namespace MandelbrotGenerator
                         {
                             cReal = area.MinReal + x * area.PixelWidth;
                             cImg = area.MinImg + y * area.PixelHeight;
-                            zReal = 0;
-                            zImg = 0;
+                            zReal = 0; zImg = 0;
 
                             int k = 0;
                             while (((zReal * zReal + zImg * zImg) < zBorder) && (k < maxIterations))
                             {
                                 zNewReal = zReal * zReal - zImg * zImg + cReal;
                                 zNewImg = 2 * zReal * zImg + cImg;
-
                                 zReal = zNewReal;
                                 zImg = zNewImg;
-
                                 k++;
                             }
                             lock (bitmap)
@@ -83,7 +81,6 @@ namespace MandelbrotGenerator
                         }
                     }
                 });
-
                 threads.Add(t);
                 t.Start(m);
             }
@@ -97,7 +94,7 @@ namespace MandelbrotGenerator
             if (CancelRequested)
             {
                 bitmap = null;
-                CancelRequested = false; 
+                CancelRequested = false;
             }
 
             TimeSpan duration = stopwatch.Elapsed;
